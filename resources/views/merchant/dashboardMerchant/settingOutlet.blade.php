@@ -192,20 +192,20 @@
 	                                <table class="table table-hover">
 	                                    <tbody>
                                             <tr>
-                                                <th>ID</th>
-                                                <td>Dakota Rice</td>
+                                                <th>Nama Outlate</th>
+                                                <td>{{ !empty($dataConfig['nama_outlate']) ? $dataConfig['nama_outlate'] : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <th>ID</th>
-                                                <td>Dakota Rice</td>
+                                                <th>Pemilik</th>
+                                                <td>{{ !empty($dataConfig['nama_pemilik_outlate']) ? $dataConfig['nama_pemilik_outlate'] : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <th>ID</th>
-                                                <td>Dakota Rice</td>
+                                                <th>Alamat</th>
+                                                <td>{{ !empty($dataConfig['alamat_outlate']) ? $dataConfig['alamat_outlate'] : '' }}</td>
                                             </tr>
                                              <tr>
-                                                <th>ID</th>
-                                                <td>Dakota Rice</td>
+                                                <th>Hp</th>
+                                                <td>{{ !empty($dataConfig['hp_outlate']) ? $dataConfig['hp_outlate'] : '' }}</td>
                                             </tr>
 	                                    </tbody>
 	                                </table>
