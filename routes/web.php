@@ -27,6 +27,10 @@ Route::group(['middleware' => ['checkMerchantLogin']], function () {
         Route::get('/setting-outlate', [ 'as' => 'setting.outlate', 'uses' => 'SettingMerchantController@index' ]);
         Route::post('/setting-getKampus', [ 'as' => 'setting.getKampus', 'uses' => 'SettingMerchantController@getKampus' ]);
         Route::post('/setting-save', [ 'as' => 'setting.doSaveConfig', 'uses' => 'SettingMerchantController@doSaveConfig' ]);
+        Route::post('/setting-open-close-save', [ 'as' => 'setting.doSaveOpenClose', 'uses' => 'SettingMerchantController@doSaveOpenClose' ]);
+        Route::post('/setting-open-update', [ 'as' => 'setting.doUpdateOpenToko', 'uses' => 'SettingMerchantController@doUpdateOpenToko' ]);
+
+        Route::get('/product-merchant', [ 'as' => 'productMerchant.index', 'uses' => 'ProductMerchantController@index' ]);
     });
 });
 //

@@ -9,6 +9,7 @@ use App\models\kotaModel as Kota;
 use App\models\kategoriModel as Kategori;
 use App\models\kampusModel as Kampus;
 use App\models\outlateModel;
+use App\models\openCloseToko;
 
 class SettingMerchantController extends Controller
 {
@@ -29,9 +30,11 @@ class SettingMerchantController extends Controller
         $this->parser['label'] = "Setting Outlet";
         $this->parser['listKota'] = Kota::all()->toArray();
         $this->parser['listKategori'] = Kategori::all()->toArray();
-
         $dataConfig  = outlateModel::where('id_merchant', $this->id_merchant)->get()->toArray();
+
+        $dataOpenCloseToko  = openCloseToko::where('id_merchant', $this->id_merchant)->get()->toArray();
         $this->parser['dataConfig'] = !empty($dataConfig[0]) ? $dataConfig[0] : "";
+        $this->parser['listOpenCloseToko'] = $dataOpenCloseToko;
         return view('merchant.dashBoardMerchant.settingOutlet', $this->parser);
     }
 
@@ -107,11 +110,10 @@ class SettingMerchantController extends Controller
         ];
         $validator = Validator::make($input, $rules, $messages);
         if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
-
             // delete before insert 
             $outlate = outlateModel::where('id_merchant', $this->id_merchant);
             $outlate->delete();
-            
+
             // save outlate model
             $outlate = new outlateModel;
             $outlate->id_Kota = $request->id_kota;
@@ -132,5 +134,75 @@ class SettingMerchantController extends Controller
         }
         return response()->json($this->parser);
        
+    }
+
+
+    public function doSaveOpenClose() {
+        $input = Input::all();
+        $rules = [
+            "optionsCheckboxes" => "required",
+            "open_jam_toko" => "required",
+            "open_menit_toko" => "required",
+            "close_jam_toko" => "required",
+            "close_menit_toko" => "required",
+            "_token" => "required"
+        ];
+        $messages = [
+            "optionsCheckboxes.required"   => error_message('settingMessages.days'),
+            "open_jam_toko.required"   => error_message('settingMessages.openajam'),
+            "open_menit_toko.required"   => error_message('settingMessages.openamenit'),
+            "close_jam_toko.required"   => error_message('settingMessages.closejam'),
+            "close_menit_toko.required"   => error_message('settingMessages.closemenit'),
+            "_token.required"   => error_message('settingMessages._token')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            $getIdOutlate = outlateModel::where('id_merchant', $this->id_merchant)->get()->toArray();
+            if (!empty($getIdOutlate)) {
+                $idOutlate = $getIdOutlate[0]['id_outlate'];
+                // delete before insert 
+                $outlate = openCloseToko::where('id_outlate', $idOutlate);
+                $outlate->delete();
+                // save outlate model
+                foreach($input['optionsCheckboxes'] as $key => $val) {
+                    $openClose = new openCloseToko;
+                    $openClose->id_outlate = $idOutlate;
+                    $openClose->id_merchant = $this->id_merchant;
+                    $openClose->hari_open = $val;
+                    $openClose->jam_open = $input['open_jam_toko'];
+                    $openClose->menit_open = $input['open_menit_toko'];
+                    $openClose->jam_close = $input['close_jam_toko'];
+                    $openClose->menit_close = $input['close_menit_toko'];
+                    $openClose->save();
+                }
+
+                $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('setting.outlate'), "message" => error_message('settingMessages.success') ]);
+            }
+            
+        } else {
+            $msg = !empty($validator->messages()->first()) ? $validator->messages()->first() :  error_message('settingMessages.failedSave');
+            $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('mainMerchant.index'), "message" => $msg ]);
+        }
+        return response()->json($this->parser);
+    }
+    public function doUpdateOpenToko() {
+        $input = Input::all();
+        $rules = [
+            "status_open_outlate" => "required",
+            "_token" => "required"
+        ];
+        $messages = [
+            "status_open_outlate.required"   => error_message('settingMessages.openStatusOutlate'),
+            "_token.required"   => error_message('settingMessages._token')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            outlateModel::where('id_merchant', $this->id_merchant)->update( ['status_open_outlate' => $input['status_open_outlate'] ]);
+            $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('setting.outlate'), "message" => error_message('settingMessages.success') ]);
+        } else {
+            $msg = !empty($validator->messages()->first()) ? $validator->messages()->first() :  error_message('settingMessages.failedSave');
+            $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('mainMerchant.index'), "message" => $msg ]);
+        }
+        return response()->json($this->parser);
     }
 }
