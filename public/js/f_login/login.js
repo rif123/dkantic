@@ -36,3 +36,9 @@ $('.doLogin').click(function(){
         }
     });
 });
+
+$('.passEvent').on('keypress', function (e) {
+    if(e.which === 13){
+        $('.doLogin').trigger('click');
+    }
+});

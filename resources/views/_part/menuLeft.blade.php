@@ -15,6 +15,12 @@
 					</a>
 				</li>
 			@endforeach
+			<li class="active-pro">
+				<a href="{{ url(route('merchant.destroy')) }}">
+					<i class="material-icons">account_circle</i>
+					<p>Logout</p>
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>

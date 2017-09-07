@@ -8,13 +8,8 @@
 					Dkantin
 				</a>	
 			</div>
-
-
-	    
-
 	 	@yield('content')
-
 	</div>
-
 </body>
 @include('_part/footer')
+@include('_part/dialog');

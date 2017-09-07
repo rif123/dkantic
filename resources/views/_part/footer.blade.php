@@ -1,4 +1,5 @@
 
+	@include('_part.dialog')
 	<!--   Core JS Files   -->
 	<script src="{{asset('/') }}js/jquery-3.1.0.min.js" type="text/javascript"></script>
 	<script src="{{asset('/') }}js/bootstrap.min.js" type="text/javascript"></script>
@@ -22,11 +23,10 @@
 	<script src="{{asset('/') }}js/custom.js"></script>
 	<script type="text/javascript">
     	$(document).ready(function(){
-			
 			// Javascript method's body can be found in assets/js/demos.js
         	demo.initDashboardPageCharts();
-
     	});
 	</script>
 	@yield('script')
+
 </html>

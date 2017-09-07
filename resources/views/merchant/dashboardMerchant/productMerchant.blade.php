@@ -86,11 +86,10 @@
 								<div class="card-content">
 									<div class="tab-content">
 										<div class="tab-pane active" id="profile">
-                                        @include('merchant.dashboardMerchant.product.addProduct')
+                                        @include('merchant.dashBoardMerchant.product.listProduct')
 										</div>
 										<div class="tab-pane" id="messages">
-                                        @include('merchant.dashboardMerchant.product.listProduct')
-                                         <button type="button" class="btn btn-primary doSaveDays">Simpan </button>
+                                        @include('merchant.dashBoardMerchant.product.addProduct')
 										</div>
 									</div>
 								</div>
@@ -102,52 +101,9 @@
 	                                <h4 class="title">Preview</h4>
 	                                <p class="category">Produk</p>
                                 </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="card-content table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Nama Outlate</th>
-                                                    <td>{{ !empty($dataConfig['nama_outlate']) ? $dataConfig['nama_outlate'] : '' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Pemilik</th>
-                                                    <td>{{ !empty($dataConfig['nama_pemilik_outlate']) ? $dataConfig['nama_pemilik_outlate'] : '' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Alamat</th>
-                                                    <td>{{ !empty($dataConfig['alamat_outlate']) ? $dataConfig['alamat_outlate'] : '' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Hp</th>
-                                                    <td>{{ !empty($dataConfig['hp_outlate']) ? $dataConfig['hp_outlate'] : '' }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="col-lg-12 col-md-12 previewProduk">
+                                    
                                 </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="card-content table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr>
-                                                    <th rowspan="7">Jam Buka</th>
-                                                    <th>Hari</th>
-                                                    <th>Jam</th>
-                                                </tr>
-                                                @if(!empty($listOpenCloseToko))
-                                                    @foreach($listOpenCloseToko as $k => $val)
-                                                    <tr>
-                                                        <td>{{$val['hari_open']}}</td>
-                                                        <td>{{$val['jam_open'].":".$val['menit_open']."-".$val['jam_close'].":".$val['menit_close']}}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
 	                        </div>
 						</div>
 					</div>
@@ -193,12 +149,15 @@
     <script src="{{asset('/plugins/jqValidate/jquery.mockjax.js')}}"></script>
     <script src="{{asset('/plugins/jqValidate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('/plugins/boostraptoggle/bootstrap-toggle.min.js')}}"></script>
-    <script>
+    <script src="{{asset('/plugins/jqform/jquery.form.js')}}"></script>
+<script>
     var urlGetKampus = "{{route('setting.getKampus')}}";
     var checkIdKota = "{{ !empty($dataConfig['id_kampus']) ?  $dataConfig['id_kampus'] : '' }}";
     var urlSetDays = "{{ url(route('setting.doSaveOpenClose')) }}";
     var urlUpdateOpenToko = "{{ url(route('setting.doUpdateOpenToko')) }}";
-    
+    var token = "{{ csrf_token() }}";
+    var urlPreview = "{{ url(route('productMerchant.preview')) }}";
+
 
     // for form 
     $('.form-config').validate({
@@ -276,7 +235,7 @@
                         }
                     },
                     error: function (jqXHR, exception) {
-                         var msg = '';
+                            var msg = '';
                         if (jqXHR.status === 0) {
                             msg = 'Not connect.\n Verify Network.';
                         } else if (jqXHR.status == 404) {
@@ -297,32 +256,135 @@
                 });
             }
         });
-    </script>
-    <script>
-$(function() {
 
-  // We can attach the `fileselect` event to all file inputs on the page
-  $(document).on('change', ':file', function() {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-        input.trigger('fileselect', [numFiles, label]);
-  });
+    // for add file on product
+    $('.addFile').click(function(){
+        var numItems = $('.literal').length;
+        var count = Number(numItems) +  1;
+        var $browser = $('.loop').clone();
+            $browser.attr('data-key', count);
+        $('.browse-file').append($browser);
+    });
+    $(document).on('click', ".removeInputFile", function () {
+        var numItems = $('.literal').length;
+        if (numItems != 1) {
+            var getLoop = $( this ).parent().parent().remove();
+        }
+    });
+    $('.form-add-product').validate({
+        debug: true,
+        rules: {
+            nama_produk: {
+                required: true,
+            },
+            harga_produk: {
+                required: true,
+            },          
+            ket_produk: {
+                required: true,
+            }
+        },
+        messages: {
+            nama_produk: {
+                required: "Silahkan Isi Nama Produk",
+            },
+            harga_produk: {
+                required: "Silahkan Isi Harga produk",
+            },          
+            ket_produk: {
+                required: "Silahkan Isi keterangan produk",
+            }
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+            var placement = $(element).data('error');
+            if (placement) {
+                $(placement).append(error)
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            doSubmitForm();
+        }
+    });
 
-  // We can watch for our custom `fileselect` event like this
-  $(document).ready( function() {
-      $(':file').on('fileselect', function(event, numFiles, label) {
-          var input = $(this).parents('.input-group').find(':text'),
-              log = numFiles > 1 ? numFiles + ' files selected' : label;
+    $('.doPreview').click(function(){
+        var id_produk = $(this).attr('data-id-produk');
+        $.ajax({
+            url: urlPreview,
+            type: "POST",
+            data: {id_produk : id_produk, _token : token },
+            success: function(retval) {
+                $('.previewProduk').html(retval.data);
+            },
+            error: function (jqXHR, exception) {
+                    var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                custom.showNotif('top','center', 4, msg)
+            }            
+        });
+    });
 
-          if( input.length ) {
-              input.val(log);
-          } else {
-              if( log ) alert(log);
-          }
-      });
-  });
-});
+    // for add file on product
+    function doSubmitForm() {
+        var bar = $('.bar');
+            var percent = $('.percent');
+            var status = $('#status');
+
+            $('.form-add-product').ajaxSubmit({
+                beforeSend: function() {
+                    $('#myLoading').modal('show');
+                    var percentVal = '0';
+                    move(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    move(percentComplete);
+                },
+                complete: function(xhr) {
+                    $('#myLoading').modal('hide');
+                    if(xhr.responseJSON.status) {
+                        custom.showNotif('top','center', 1, xhr.responseJSON.message);
+                        setTimeout(function(){ 
+                            window.location  = xhr.responseJSON.redirect;
+                        }, 3000);
+                    } else {
+                        custom.showNotif('top','center', 4, xhr.responseJSON.message);
+                    }
+                }
+            }); 
+    }
+    function move(percentVal) {
+        var elem = document.getElementById("myBar");   
+        var width = percentVal;
+        elem.style.width = width + '%'; 
+        elem.innerHTML =  width + '%';
+    }
+</script>
+<script>
+    $(function() {
+    // We can attach the `fileselect` event to all file inputs on the page
+        $(document).on('change', ':file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+    });
 </script>
     @endsection
  

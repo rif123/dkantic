@@ -9,13 +9,8 @@
 						<br>
 						<br>
 						<div class="content">
-							<div class="card-avatar">
-								<a href="#pablo">
-									<img class="img" src="{{asset('/')}}img/logoDkantin.png" />
-								</a>
-							</div>
 							<h6 class="category text-gray">Selamat Datang Admin Merchant</h6>
-							<h4 class="card-title">Dkantin Merchant</h4>
+							<h4 class="card-title">Dkantin</h4>
 							<div class="card-content">
 								<form id="formLogin">
 									<div class="row">
@@ -28,7 +23,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="form-group label-floating">
-												<input type="password" class="form-control" placeholder="Password" name="password">
+												<input type="password" class="form-control passEvent" placeholder="Password" name="password">
 											</div>
 										</div>
 									</div>

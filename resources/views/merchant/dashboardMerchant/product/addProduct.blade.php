@@ -1,10 +1,10 @@
-<form class="form-config" action="{{ route('setting.doSaveConfig') }}" method="POST">
+<form class="form-add-product" action="{{ route('productMerchant.store') }}" method="POST" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group label-floating">
                 <label class="control-label">Nama Produk</label>
-                <input type="text" class="form-control" name="nama_outlate" value="{{ !empty($dataConfig['nama_outlate']) ? $dataConfig['nama_outlate'] : '' }}" data-error=".nama_outlateTxt">
-                <div class="nama_outlateTxt"></div>
+                <input type="text" class="form-control nama_produk" name="nama_produk" value="{{ !empty($dataProd['nama_produk']) ? $dataProd['nama_produk'] : '' }}" data-error=".nama_produkTxt">
+                <div class="nama_produkTxt"></div>
             </div>
         </div>
     </div>
@@ -12,8 +12,8 @@
         <div class="col-md-12">
             <div class="form-group label-floating">
                 <label class="control-label">Harga</label>
-                <input type="text" class="form-control" name="nama_pemilik"  data-error=".nama_pemilikTxt" value="{{ !empty($dataConfig['nama_pemilik_outlate']) ? $dataConfig['nama_pemilik_outlate'] : '' }}" >
-                <div class="nama_pemilikTxt"></div>
+                <input type="text" class="form-control harga_produk" name="harga_produk"  data-error=".harga_produkTxt" value="{{ !empty($dataProd['harga_produk']) ? $dataProd['harga_produk'] : '' }}" >
+                <div class="harga_produkTxt"></div>
             </div>
         </div>
     </div>
@@ -21,46 +21,54 @@
         <div class="col-md-12">
             <label>Keterangan</label>
             <div class="form-group label-floating">
-                <label class="control-label">Masukan Alamat Outlate lengkat d& detail </label>
-                <textarea class="form-control" rows="5" name="alamat_outlate" data-error=".alamat_outlateTxt">{{ !empty($dataConfig['alamat_outlate']) ? $dataConfig['alamat_outlate'] : '' }}</textarea>
-                <div class="alamat_outlateTxt"></div>
+                <label class="control-label">Keterangan Produk </label>
+                <textarea class="form-control ket_produk" rows="5" name="ket_produk" data-error=".ketprodTxt">{{ !empty($dataConfig['ket_produk']) ? $dataConfig['ket_produk'] : '' }}</textarea>
+                <div class="ketprodTxt"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row listFileImage hidden">
+        <div class="col-md-12 col-sm-12">
+            <div class="bodyList">
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <span class="btn btn-danger btn-sm" style="margin-left:20px"> + </span>
-
-            <div class="input-group literal-1" style="margin-top:-40px">
-                <label class="input-group-btn">
-                    <span class="btn btn-info btn-sm" style="margin-top:37px">
-                        Browse&hellip; <input type="file" name="imageProd[]" style="display: none;"> 
-                    </span>
-                </label>
-                <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" readonly>
+        <div class="col-md-12 col-sm-12 browse-file">
+        <span class="btn btn-danger btn-sm addFile"> + </span>
+           
+                <div class="form-group literal loop" data-key="1">
+                    <div class="col-md-2 col-sm-12">
+                        <label class="input-group-btn">
+                            <span class="btn btn-info btn-sm">
+                                Browse&hellip; <input type="file" name="name_image_prod[]" style="display: none;"> 
+                            </span>
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <input type="text" class="form-control"  name="nameFIle" readonly>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <span class="btn btn-info btn-sm removeInputFile"> - </span>
+                    </div>
                 </div>
-                <div class="col-md-5 col-sm-5">
-                    <span class="btn btn-info btn-sm" style="margin-top:37px"> - </span>
-                </div>
-            </div>
-
-            <div class="input-group literal-1" style="margin-top:-40px">
-                <label class="input-group-btn">
-                    <span class="btn btn-info btn-sm" style="margin-top:37px">
-                        Browse&hellip; <input type="file" name="imageProd[]" style="display: none;"> 
-                    </span>
-                </label>
-                <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" readonly>
-                </div>
-                <div class="col-md-5 col-sm-5">
-                    <span class="btn btn-info btn-sm" style="margin-top:37px"> - </span>
-                </div>
-            </div>
         </div>
     </div>
+    
     <input type="hidden" name="_token" value="{{ csrf_token() }}" >
-    <button type="submit" class="btn btn-primary pull-right">Simpan</button>
+    <button type="submit" class="btn btn-primary pull-right buttonActionProduct" >Simpan</button>
     <div class="clearfix"></div>
+    <div id="status"></div>
+    <style>
+        #myProgress {
+        width: 100%;
+        background-color: #ddd;
+        }
+
+        #myBar {
+        width: 1%;
+        height: 30px;
+        background-color: #4CAF50;
+        }
+    </style>
 </form>

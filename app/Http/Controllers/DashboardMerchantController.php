@@ -15,7 +15,7 @@ class DashboardMerchantController extends Controller
     public function index()
     {
         $this->parser['menu'] = route('mainMerchant.index');
-        return view('merchant.dashboardMerchant.homePage', $this->parser);
+        return view('merchant.dashBoardMerchant.homePage', $this->parser);
     }
 
     /**
