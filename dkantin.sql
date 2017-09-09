@@ -11,7 +11,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 09/08/2017 06:58:31 AM
+ Date: 09/09/2017 09:50:20 AM
 */
 
 SET NAMES utf8;
@@ -266,6 +266,67 @@ CREATE TABLE `produk_rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
+--  Table structure for `promo`
+-- ----------------------------
+DROP TABLE IF EXISTS `promo`;
+CREATE TABLE `promo` (
+  `id_promo` int(11) NOT NULL AUTO_INCREMENT,
+  `name_promo` varchar(100) DEFAULT NULL,
+  `image_promo` varchar(100) DEFAULT NULL,
+  `date_start_promo` datetime DEFAULT NULL,
+  `date_end_promo` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `edited` datetime DEFAULT NULL,
+  `editor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_promo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Table structure for `promo_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `promo_role`;
+CREATE TABLE `promo_role` (
+  `id_produk` int(11) DEFAULT NULL,
+  `id_promo` int(11) DEFAULT NULL,
+  KEY `id_produk` (`id_produk`),
+  KEY `id_promo` (`id_promo`),
+  CONSTRAINT `keyProdPromo` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`),
+  CONSTRAINT `keyPromo` FOREIGN KEY (`id_promo`) REFERENCES `promo` (`id_promo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Table structure for `promo_slide`
+-- ----------------------------
+DROP TABLE IF EXISTS `promo_slide`;
+CREATE TABLE `promo_slide` (
+  `id_slide` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_slide` varchar(255) DEFAULT NULL,
+  `image_slide` varchar(255) DEFAULT NULL,
+  `date_start_slide` datetime DEFAULT NULL,
+  `date_end_slide` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `edited` datetime DEFAULT NULL,
+  `editor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_slide`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Table structure for `promo_slide_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `promo_slide_role`;
+CREATE TABLE `promo_slide_role` (
+  `id_produk` int(11) DEFAULT NULL,
+  `id_slide` int(11) DEFAULT NULL,
+  KEY `id_produk` (`id_produk`),
+  KEY `id_slide` (`id_slide`),
+  CONSTRAINT `keyProd` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`),
+  CONSTRAINT `keySlide` FOREIGN KEY (`id_slide`) REFERENCES `promo_slide` (`id_slide`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
 --  Table structure for `review`
 -- ----------------------------
 DROP TABLE IF EXISTS `review`;
@@ -330,6 +391,24 @@ CREATE TABLE `user_admin` (
 BEGIN;
 INSERT INTO `user_admin` VALUES ('1', 'rifkyadmin', '$2y$10$SbaO4qKayyKKuHZ1KcUG5ORhPmeIN.eO86rmY8bgaazaPgYhcLAli', 'Rifky rachman', '2017-09-02 00:29:56', '1', null, null);
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `user_customer`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_customer`;
+CREATE TABLE `user_customer` (
+  `id_customer` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_customer` varchar(100) DEFAULT NULL,
+  `pass_customer` varchar(100) DEFAULT NULL,
+  `alamat_customer` varchar(100) DEFAULT NULL,
+  `email_customer` varchar(100) DEFAULT NULL,
+  `hp_customer` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL,
+  `editor` datetime DEFAULT NULL,
+  `edited` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_customer`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 --  Table structure for `users_merchant`
