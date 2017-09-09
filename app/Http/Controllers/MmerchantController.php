@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\models\kampusModel as Kampus;
 use App\models\kotaModel as Kota;
 use App\models\merchantModel as Merchant;
+use App\models\kategoriModel as Kategori;
 
 class MmerchantController extends Controller
 {
@@ -26,6 +27,7 @@ class MmerchantController extends Controller
         $this->parser['label'] = "Master Merchant"; 
         $this->parser['listKampus'] = Kampus::limit(1)->orderByDesc("id_kampus")->get()->toArray();
         $this->parser['listKota'] = Kota::all()->toArray();
+        $this->parser['listKategori'] = Kategori::all()->toArray();
         return view('admin.dashBoardAdmin.masterMerchant', $this->parser);
     }
 
@@ -54,6 +56,34 @@ class MmerchantController extends Controller
              * get all data
           **/
          $output['data']  = $result;
+         return response()->json($output);
+     }
+
+   /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+     public function filterMerchant()
+     {   
+         $input = Input::all();
+         /**
+             * set count
+         **/
+         $rules = [
+            "_token" => "required"
+        ];
+        $messages = [
+            "_token.required"   => error_message('produkMessages._token')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            $input = array_filter($input);
+            unset($input['_token']);
+            $result  = Merchant::getAllData($input, true);
+        }
+         
          return response()->json($output);
      }
     
@@ -86,6 +116,7 @@ class MmerchantController extends Controller
         }
         return response()->json($this->parser);
      }
+     
      /**
      * Store a newly created resource in storage.
      *
@@ -114,6 +145,33 @@ class MmerchantController extends Controller
         return response()->json($this->parser);
      }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+     public function getKampus()
+     {   
+         $input = Input::all();
+         $rules = [
+            "id_kota" => "required",
+        ];
+        $messages = [
+            "id.required"   => error_message('MkampusMessages.id_merchant')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            $listKampus  = Kampus::where('id_kota', $input['id_kota'])->get()->toArray();
+            $this->setCallback(['status' => true, 'isRedirect' => false, "redirect" => "", "message" => "", "data" => $listKampus ]);
+        } else {
+            $msg = !empty($validator->messages()->first()) ? $validator->messages()->first() :  error_message('settingMessages.failedSave');
+            $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('masterKampus.index'), "message" => $msg ]);
+        }
+        return response()->json($this->parser);
+     }
+
+     
 
      
      /**

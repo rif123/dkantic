@@ -28,10 +28,33 @@ class merchantModel extends Model
                 LEFT JOIN m_kategori as mkt on ot.id_kategori = mkt.id_kategori
                 where 1=1
             ";
-        
-        // if (!empty($input['search']['value'])) {
-        //     $query .= " and nama_kampus like  '%".$input['search']['value']."%' ";
-        // }
+        if (!empty($input['status_open_outlate'])) {
+            $query .= " AND ot.status_open_outlate like '%".$input['status_open_outlate']."%' ";
+        }
+        if (!empty($input['username_merchant'])) {
+            $query .= " AND um.username_merchant like '%".$input['username_merchant']."%' ";
+        }
+        if (!empty($input['id_kota'])) {
+            $query .= " AND ot.id_kota like '%".$input['id_kota']."%' ";
+        }
+        if (!empty($input['id_kampus'])) {
+            $query .= " AND ot.id_kampus like '%".$input['id_kampus']."%' ";
+        }
+        if (!empty($input['nama_kategori'])) {
+            $query .= " AND mkt.nama_kategori like '%".$input['nama_kategori']."%' ";
+        }
+        if (!empty($input['nama_pemilik_outlate'])) {
+            $query .= " AND ot.nama_pemilik_outlate like '%".$input['nama_pemilik_outlate']."%' ";
+        }
+        if (!empty($input['alamat_outlate'])) {
+            $query .= " AND ot.alamat_outlate like '%".$input['alamat_outlate']."%' ";
+        }
+        if (!empty($input['hp_outlate'])) {
+            $query .= " AND ot.hp_outlate like '%".$input['hp_outlate']."%' ";
+        }
+        if (!empty($input['status_open_outlate'])) {
+            $query .= " AND ot.status_open_outlate like '%".$input['status_open_outlate']."%' ";
+        }
         $order = "";
         if (!empty($input['order'])) { // here order processing
             $colum  = self::column_order();

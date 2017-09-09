@@ -61,27 +61,18 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-                            @include('admin.dashBoardAdmin.master.menu')
+                            @include('admin.dashBoardAdmin.promo.menuPromo')
                         </div>
                     </div>
 
                     <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKota')
+                        @include('admin.dashBoardAdmin.promo.listPromo')
                     </div>
                     
                     <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKampus')
+                        @include('admin.dashBoardAdmin.promo.listPromoSlide')
                     </div>
-
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKategori')
-                    </div>
-                    
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listOutlates')
-                    </div>
-
-
+                   
 				</div>
             </div>
             <style>

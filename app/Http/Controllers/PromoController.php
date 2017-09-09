@@ -7,7 +7,7 @@ use App\models\kotaModel as Kota;
 use App\models\kampusModel as Kampus;
 use App\models\kategoriModel as Kategori;
 use App\models\outlateModel as Outlate;
-class MasterController extends Controller
+class PromoController extends Controller
 {
     private  $limit = 5;
     /**
@@ -17,14 +17,14 @@ class MasterController extends Controller
      */
     public function index()
     {
-        $this->parser['label'] = "Setting Website";
+        $this->parser['label'] = "Promo";
         $this->parser['listKota'] = $this->listKota();
         $this->parser['listKampus'] = $this->listKampus();
         $this->parser['listKategori'] = $this->listKategori();
         $this->parser['listOutlate'] = $this->listOutlate();
-        return view('admin.dashBoardAdmin.master', $this->parser);
-    }
 
+        return view('admin.dashBoardAdmin.promo', $this->parser);
+    }
     private function listKota() {
         $list = Kota::take($this->limit)->orderBy('id_kota', 'desc')->get()->toArray();
         return $list;
@@ -41,5 +41,4 @@ class MasterController extends Controller
         $list = Outlate::take($this->limit)->orderBy('id_outlate', 'desc')->get()->toArray();
         return $list;
     }
-    
 }

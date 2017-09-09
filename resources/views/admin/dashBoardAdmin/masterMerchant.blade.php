@@ -75,7 +75,7 @@
                                     <div class="ripple-container"></div>
                                 </a> 
                                 | 
-                                <a href="#profile" data-toggle="tab" class="showFilter">
+                                <a href="#profile" data-toggle="tab" class="">
                                     <i class="material-icons">add_to_queue</i>
                                     Tambah
                                     <div class="ripple-container"></div>
@@ -138,9 +138,104 @@
                     transform: translateY(0%);
                 }
             </style>
-         
             @include('_part.footer_menu')
         </div>
+
+
+<div class="modal fade" id="myFilterDashboard" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Filter Merchant</h4>
+      </div>
+      <div class="modal-body">
+          <form class="formFilter">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Nama Merchant</label>
+                        <input type="text" name="username_merchant" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Nama outlate</label>
+                        <input type="text" name="nama_outlate" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Kota</label>
+                        <select name="id_kota"  class="form-controll changeKota">
+                            <option value=""> Pilih Kota </option>
+                            @foreach($listKota as $key => $val)
+                                <option value="{{ $val['id_kota'] }}">{{ $val['nama_kota'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Kampus</label>
+                        <select name="id_kampus" class="form-controll kampusData">
+                            <option value=""> Pilih Kampus </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Kategori</label>
+                        <select name="nama_kategori" class="form-controll">
+                            <option value=""> Pilih Kategori </option>
+                            @foreach($listKategori as $key => $val)
+                                <option value="{{ $val['id_kategori'] }}">{{ $val['nama_kategori'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Nama Pemilik</label>
+                        <input type="text" name="nama_pemilik_outlate" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Alamat</label>
+                        <input type="text" name="alamat_outlate" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Hp</label>
+                        <input type="text" name="hp_outlate" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Status Toko</label>
+                        <select name="status_open_outlate" class="form-controll">
+                            <option value=""> Status Toko </option>
+                            <option value="1"> OPEN </option>
+                            <option value="2"> Close </option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" value="{{ csrf_token() }}" name="_token">
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success resetFormMerchant" >Reset</button>
+        <button type="button" class="btn btn-primary findMerhcant" >Cari</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
     @section('script')
     <script src="{{asset('/plugins/jqValidate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('/plugins/jqform/jquery.form.js')}}"></script>
@@ -150,9 +245,11 @@
     var urlAjaxTable  = "{{ route('masterMerchant.getMerchant') }}";
     var urlGetDetailMerchant  = "{{ route('masterMerchant.getDetailMerchant') }}";
     var urlDelete  = "{{ route('masterKampus.delete') }}";
-    var token  = "{{ csrf_token() }}";
+    var urlGetKampus = "{{ route('masterMerchant.getKampus') }}";
+    var urlFilter = "{{ route('masterMerchant.filterMerchant') }}";
+    var token  = "{{ csrf_token() }}";      
     var selDialog = $('#myConfirm');
-    var perPage = 10;
+    var perPage = 10; 
     // jquery datatables
     var listTable = $('.listGlobal').DataTable( {
                         "processing": true,
@@ -289,6 +386,108 @@
     $('.showFilter').click(function(){
         $('#myFilterDashboard').modal('show');
     });
+    $('.resetFormMerchant').click(function(){
+        $('.formFilter')[0].reset();
+    });
+    $('.changeKota').change(function(){
+        var id_kota = $(this).val();
+        $.ajax({
+            url: urlGetKampus,
+            type: "get",
+            data: { id_kota : id_kota,  _token : token},
+            success: function(retval) {
+                var sel = "";
+                var html = "";
+                if (retval.data != "") {
+                    $(retval.data).each(function (index, value){
+                        html +=  "<option value='"+value.id_kampus+"'> "+value['nama_kampus']+" </option>";
+                    });
+                    $('.kampusData').html(html);
+                } else {
+                    $('.kampusData').html( "<option value=''> Pilih Kampus </option>");
+                }
+            },
+            error: function (jqXHR, exception) {
+                    var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                custom.showNotif('top','center', 4, msg)
+            }            
+        });
+    });
+    $('.findMerhcant').click(function() {
+        var formdata = $('.formFilter').serializeArray();
+        var data = {};
+        $(formdata ).each(function(index, obj){
+            data[obj.name] = obj.value;
+        });
+
+        $('.listGlobal').DataTable( {
+            "processing": true,
+            "bFilter": false,
+            "bInfo": false,
+            "bLengthChange": false,
+            "serverSide": true,
+            "pageLength": perPage,
+            "ajax": {
+                "url": urlAjaxTable,
+                "type": "GET",
+                 "data" : data
+            },
+            "columns": [
+                { "data": "id_merchant" },
+                { "data": "username_merchant" },
+                { "data": "nama_outlate" },
+                { "data": "nama_kota" },
+                { "data": "nama_kampus" },
+                { "data": "nama_kategori" },
+                { "data": "nama_pemilik_outlate" },
+                { "data": "alamat_outlate" },
+                { "data": "hp_outlate" },
+                { "render": function (data, type, row, meta) {
+                    var status = "<span class='btn btn-success btn-sm'>OPEN</span>";
+                        if (row.status_open_outlate != 1) {
+                            status = "<span class='btn btn-success btn-sm'>CLOSE</span>";
+                        }
+                        return status
+                    }
+                },
+                { "render": function (data, type, row, meta) {
+                    var preview = $('<a><button>')
+                                .attr('class', "btn btn-info btn-edit-menu")
+                                .attr('onclick','preview(\''+row.id_merchant+'\' )')
+                                .text('Preview')
+                                .wrap('<div></div>')
+                                .parent()
+                                .html();
+                    return preview;
+                    }
+                },
+                ],
+                aoColumnDefs: [
+                {
+                    bSortable: false,
+                    aTargets: [ 9 ]
+                }
+            ],
+            'destroy' : true
+        });
+        $('#myFilterDashboard').modal('hide');
+    })
+
     // for form 
     $('.form-global').validate({
             debug: true,

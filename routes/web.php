@@ -38,7 +38,6 @@ Route::group(['middleware' => ['checkAdminLogin']], function () {
         Route::get('/setting-website', [ 'as' => 'setting.website', 'uses' => 'AdminSettingWebsiteController@index' ]);
         Route::post('/setting-website-save', [ 'as' => 'setting.wsebsite.save', 'uses' => 'AdminSettingWebsiteController@doSaveConfig' ]);
 
-
         Route::group([ 'prefix' => 'master'], function () {
             Route::get('/', [ 'as' => 'masterAdmin.index', 'uses' => 'MasterController@index' ]);
             
@@ -64,7 +63,7 @@ Route::group(['middleware' => ['checkAdminLogin']], function () {
             Route::post('/kategori-update', [ 'as' => 'masterKategori.update', 'uses' => 'MkategoriController@update' ]);
             Route::post('/kategori-delete', [ 'as' => 'masterKategori.delete', 'uses' => 'MkategoriController@delete' ]);
 
-             // kota
+             // merchant
             Route::get('/merchant', [ 'as' => 'masterMerchant.index', 'uses' => 'MmerchantController@index' ]);
             Route::get('/data-merchant', [ 'as' => 'masterMerchant.getMerchant', 'uses' => 'MmerchantController@getMerchant' ]);
             Route::post('/data-detail-merchant', [ 'as' => 'masterMerchant.getDetailMerchant', 'uses' => 'MmerchantController@getDetailMerchant' ]);
@@ -72,6 +71,13 @@ Route::group(['middleware' => ['checkAdminLogin']], function () {
             Route::post('/merchant-save', [ 'as' => 'masterMerchant.create', 'uses' => 'MmerchantController@create' ]);
             Route::post('/merchant-update', [ 'as' => 'masterMerchant.update', 'uses' => 'MmerchantController@update' ]);
             Route::post('/merchant-delete', [ 'as' => 'masterMerchant.delete', 'uses' => 'MmerchantController@delete' ]);
+
+            Route::get('/merchant-get-kampus', [ 'as' => 'masterMerchant.getKampus', 'uses' => 'MmerchantController@getKampus' ]);            
+            Route::post('/merchant-filter', [ 'as' => 'masterMerchant.filterMerchant', 'uses' => 'MmerchantController@filterMerchant' ]);            
+
+
+             // Promo
+             Route::get('/promo', [ 'as' => 'promoLanding.index', 'uses' => 'PromoController@index' ]);
 
         });
 

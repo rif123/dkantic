@@ -50,6 +50,11 @@ if (! function_exists('get_menu_admin')) {
             ],
             [
                 'icon' => 'storage',
+                'link' => route('promoLanding.index'),
+                'label' => 'Promo'
+            ],
+            [
+                'icon' => 'storage',
                 'link' => route('manageAdmin.index'),
                 'label' => 'Manage'
             ]
