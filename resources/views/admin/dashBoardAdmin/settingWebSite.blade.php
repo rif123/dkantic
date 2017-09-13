@@ -1,7 +1,6 @@
 @extends('index')
 @section('content')
 @include('_part/menuLeftAdmin')
-<link href="{{asset('/plugins/boostraptoggle/bootstrap-toggle.min.css')}}" rel='stylesheet' type='text/css'></link>
 <div class="main-panel">
 			<nav class="navbar navbar-transparent navbar-absolute">
 				<div class="container-fluid">
@@ -56,7 +55,6 @@
 					</div>
 				</div>
 			</nav>
-
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
@@ -197,6 +195,9 @@
     <script src="{{asset('/plugins/jqValidate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('/plugins/boostraptoggle/bootstrap-toggle.min.js')}}"></script>
     <script src="{{asset('/plugins/jqform/jquery.form.js')}}"></script>
+   
+    
+    
     <script>    
     var urlGetKampus = "{{route('setting.getKampus')}}";
     var checkIdKota = "{{ !empty($dataConfig['id_kampus']) ?  $dataConfig['id_kampus'] : '' }}";

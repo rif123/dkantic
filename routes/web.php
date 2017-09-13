@@ -10,9 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ 'as' => 'fe.index', 'uses' => 'FeMainMageController@index' ]);
 
 /*
-    FEATURE LOGIN
+    FEATURE LOGIN merchant
 */
 Route::get('/merchant/login', [ 'as' => 'merchant.index', 'uses' => 'MerchantController@index' ]);
 Route::post('/merchant/doLogin', [ 'as' => 'merchant.doLogin', 'uses' => 'MerchantController@doLogin' ]);
@@ -20,11 +21,25 @@ Route::get('/merchant/logsout', [ 'as' => 'merchant.destroy', 'uses' => 'Merchan
 
 
 /*
-    FEATURE LOGIN
+    FEATURE LOGIN admin
 */
 Route::get('/admin/login', [ 'as' => 'admin.index', 'uses' => 'AdminController@index' ]);
 Route::post('/admin/doLogin', [ 'as' => 'admin.doLogin', 'uses' => 'AdminController@doLogin' ]);
 Route::get('/admin/logout', [ 'as' => 'admin.destroy', 'uses' => 'AdminController@destroy' ]);
+
+/*
+    FEATURE LOGIN user
+*/
+Route::get('/auth/login', [ 'as' => 'user.login', 'uses' => 'AuthController@index' ]);
+Route::post('/auth/do-login', [ 'as' => 'user.doLogin', 'uses' => 'AuthController@doLogin' ]);
+Route::get('/auth/logout', [ 'as' => 'user.doLogout', 'uses' => 'AuthController@doLogout' ]);
+Route::post('/auth/doRegister', [ 'as' => 'user.doReg', 'uses' => 'AuthController@doReg' ]);
+
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+
 
 
 /*
@@ -74,15 +89,49 @@ Route::group(['middleware' => ['checkAdminLogin']], function () {
 
             Route::get('/merchant-get-kampus', [ 'as' => 'masterMerchant.getKampus', 'uses' => 'MmerchantController@getKampus' ]);            
             Route::post('/merchant-filter', [ 'as' => 'masterMerchant.filterMerchant', 'uses' => 'MmerchantController@filterMerchant' ]);            
-
-
-             // Promo
-             Route::get('/promo', [ 'as' => 'promoLanding.index', 'uses' => 'PromoController@index' ]);
-
         });
+
+        
+
+        Route::group([ 'prefix' => 'promo'], function () {  // Promo
+            Route::get('/', [ 'as' => 'promoLanding.index', 'uses' => 'PromoController@index' ]);
+           
+            
+            // promo origin
+            Route::get('/promo-origin', [ 'as' => 'promolanding.index', 'uses' => 'PromoOriginController@index' ]);
+            Route::get('/promo-get-origin', [ 'as' => 'promoOrigin.getPromo', 'uses' => 'PromoOriginController@getPromo' ]);
+            Route::get('/promo-role-prod', [ 'as' => 'promoOrigin.getRolePromo', 'uses' => 'PromoOriginController@getRolePromo' ]);
+            Route::post('/promo-form', [ 'as' => 'promoOrigin.showFormPromo', 'uses' => 'PromoOriginController@showFormPromo' ]);
+            Route::post('/promo-edit-form', [ 'as' => 'promoOrigin.showFormPromoEdit', 'uses' => 'PromoOriginController@showFormPromoEdit' ]);
+            Route::post('/promo-save', [ 'as' => 'promoOrigin.doSavePromo', 'uses' => 'PromoOriginController@doSavePromo' ]);
+            Route::post('/promo-update', [ 'as' => 'promoOrigin.doUpdatePromo', 'uses' => 'PromoOriginController@doUpdatePromo' ]);
+            Route::post('/promo-delete', [ 'as' => 'promoOrigin.doDeletePromo', 'uses' => 'PromoOriginController@doDeletePromo' ]);
+            Route::get('/promo-from-items', [ 'as' => 'promoOrigin.showFormItems', 'uses' => 'PromoOriginController@showFormItems' ]);
+            Route::post('/promo-save-items', [ 'as' => 'promoOrigin.doSaveRoleItems', 'uses' => 'PromoOriginController@doSaveRoleItems' ]);
+            Route::get('/promo-list', [ 'as' => 'promoOrigin.getPromoList', 'uses' => 'PromoOriginController@getPromoList' ]);
+            Route::get('/promo-get-outlate', [ 'as' => 'promoOrigin.getOutlate', 'uses' => 'PromoOriginController@getOutlate' ]);
+            Route::post('/promo-get-product', [ 'as' => 'promoOrigin.getProduk', 'uses' => 'PromoOriginController@getProduk' ]);
+
+            // promo origin
+            Route::get('/promo-slider', [ 'as' => 'promoSLideLanding.index', 'uses' => 'PromoSliderController@index' ]);
+            Route::get('/promo-get-slide', [ 'as' => 'promoSLideLanding.getSlide', 'uses' => 'PromoSliderController@getSlide' ]);
+            Route::get('/promo-role-prod-slide', [ 'as' => 'promoSLideLanding.getRolePromoSlide', 'uses' => 'PromoSliderController@getRolePromoSlide' ]);
+            Route::post('/promo-form-slide', [ 'as' => 'promoSLideLanding.showFormPromoSlide', 'uses' => 'PromoSliderController@showFormPromoSlide' ]);
+            Route::post('/promo-edit-form-slide', [ 'as' => 'promoSLideLanding.showFormPromoSlideEdit', 'uses' => 'PromoSliderController@showFormPromoEdit' ]);
+            Route::post('/promo-delete-slide', [ 'as' => 'promoSLideLanding.doDeletePromoItem', 'uses' => 'PromoSliderController@doDeletePromoItem' ]);
+            Route::get('/promo-from-items', [ 'as' => 'promoSLideLanding.showFormItemsSlide', 'uses' => 'PromoSliderController@showFormItemsSlide' ]);
+
+            Route::get('/promo-list-items', [ 'as' => 'promoSLideLanding.getPromoListItems', 'uses' => 'PromoSliderController@getPromoListItems' ]);
+            Route::post('/promo-save-slide-items', [ 'as' => 'promoSLideLanding.doSaveRoleSlideItems', 'uses' => 'PromoSliderController@doSaveRoleSlideItems' ]);
+
+            Route::post('/promo-save-slide', [ 'as' => 'promoSLideLanding.doSaveSlide', 'uses' => 'PromoSliderController@doSaveSlide' ]);
+            Route::post('/promo-update-slide', [ 'as' => 'promoSLideLanding.doUpdatePromoSlide', 'uses' => 'PromoSliderController@doUpdatePromoSlide' ]);
+        });
+
 
         Route::group([ 'prefix' => 'manage'], function () {
             Route::get('/', [ 'as' => 'manageAdmin.index', 'uses' => 'MmanageController@index' ]);
+            
         });
         
         
@@ -116,11 +165,3 @@ Route::group(['middleware' => ['checkMerchantLogin']], function () {
 
 
 
-
-//
-Route::get('/', function () {
-    return view('welcome');
-});
-    
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');

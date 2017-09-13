@@ -8,15 +8,19 @@
 			<thead class="text-warning">
 				<th>ID</th>
 				<th>Name</th>
+				<th>Start</th>
+				<th>End</th>
 				<th>Created</th>
 			</thead>
 			<tbody>
 			@php $no = "1" @endphp
-			@if(!empty($listKota))
-				@foreach ($listKota as $key => $val)
+			@if(!empty($listPromo))
+				@foreach ($listPromo as $key => $val)
 					<tr>
 						<td>{{$no}}</td>
-						<td>{{$val['nama_kota']}}</td>
+						<td>{{$val['nama_promo']}}</td>
+						<td>{{ date( "d M Y H:i:s", strtotime($val['date_start_promo'])) }}</td>
+						<td>{{ date( "d M Y H:i:s", strtotime($val['date_end_promo'])) }}</td>
 						<td>{{ date("d M Y H:i:s", strtotime($val['created'])) }}</td>
 					</tr>
 					@php $no++; @endphp

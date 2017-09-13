@@ -16,7 +16,7 @@
 				</li>
 			@endforeach
 			<li class="active-pro">
-				<a href="{{ url(route('merchant.destroy')) }}">
+				<a href="{{ url(route('admin.destroy')) }}">
 					<i class="material-icons">account_circle</i>
 					<p>Logout</p>
 				</a>

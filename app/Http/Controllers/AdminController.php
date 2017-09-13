@@ -58,6 +58,10 @@ class AdminController extends Controller
         }
         return response()->json($this->parser);
     }
+    public function destroy() {
+        \Session::forget('authAdmin');
+        return redirect(route('admin.index'));
+    }
     private function checkPassword($input, $hasedPass) {
         if(Hash::check($input['password_admin'], $hasedPass['password_admin']))
         {

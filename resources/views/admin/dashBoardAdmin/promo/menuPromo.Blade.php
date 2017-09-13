@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-md-6 col-sm-6">
-    <a href="{{ url(route('masterKota.index')) }}">
+    <a href="{{ url(route('promolanding.index')) }}">
         <div class="card card-stats">
             <div class="card-header" data-background-color="orange">
                 <i class="material-icons">content_copy</i>
@@ -14,7 +14,7 @@
     </a>
 </div>
 <div class="col-lg-3 col-md-6 col-sm-6">
-    <a href="{{ url(route('masterKota.index')) }}">
+    <a href="{{ url(route('promoSLideLanding.index')) }}">
         <div class="card card-stats">
             <div class="card-header" data-background-color="orange">
                 <i class="material-icons">content_copy</i>

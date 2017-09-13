@@ -9,9 +9,11 @@
 						<br>
 						<br>
 						<div class="content">
-							<h6 class="category text-gray">Selamat Datang Admin Merchant</h6>
-							<h4 class="card-title">Dkantin</h4>
+							<h6 class="category text-gray">Selamat Datang Dashboard Merchant</h6>
 							<div class="card-content">
+								<div class="card-header" data-background-color="orange">
+									<h4 class="card-title">MERCHANT</h4>
+								</div>
 								<form id="formLogin">
 									<div class="row">
 										<div class="col-md-12">
@@ -28,7 +30,6 @@
 										</div>
 									</div>
 									<input type="hidden" name="_token" value="{{csrf_token()}}" >
-									<a type="submit" class="btn pull-right btn-default " style="background:#fff; color:green; box-shadow:none">Register</a>
 									<button type="button" class="btn btn-primary pull-right doLogin" >Login</button>
 								</form>
 							</div>
