@@ -30,10 +30,10 @@
             <div class="container">
                 <div class="row">
                     <div class="block-coppyright">
-                        © 2015 Edo Demo Store. All Rights Reserved.
+                        © {{ menuConfig('copy_right') }}
                     </div>
                     <div class="block-shop-phone">
-                        Shop by phone <strong>1-899-353-2268</strong>
+                        Shop by phone <strong>{{ menuConfig('telp_config') }}</strong>
                     </div>
                 </div>
             </div>

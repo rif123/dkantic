@@ -51,6 +51,14 @@ class AdminSettingWebsiteController extends Controller
         ];
         $validator = Validator::make($input, $rules, $messages);
         if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            if(Input::hasFile('logo_config')){
+                $files = $request->file('logo_config');
+                $filename = $files->getClientOriginalName();
+                $extension = $files->getClientOriginalExtension();
+                $picture = date('His').$filename;
+                $files->move($this->destinationPath, $picture);
+                $inputAdd['logo_config'] =  $picture;
+            }
             if(Input::hasFile('favicon_config')){
                 $files = $request->file('favicon_config');
                 $filename = $files->getClientOriginalName();
@@ -87,6 +95,7 @@ class AdminSettingWebsiteController extends Controller
             $inputAdd['fb_config'] = $input['fb_config'];
             $inputAdd['twit_config'] = $input['twit_config'];
             $inputAdd['gp_config'] = $input['gp_config'];
+            $inputAdd['copy_right'] = $input['copy_right'];
             $checkData = Site::all()->toArray();
             if (empty($checkData[0]['id_config'])) {
                 DB::table('config')->insert($inputAdd);

@@ -94,7 +94,7 @@
                                                             <option value=""> Pilih Kota </option>
                                                             @foreach($listKota as $key => $val)
                                                                 @php $checked = "";  @endphp
-                                                                    @if(!empty($dataConfig['nama_outlate']))
+                                                                    @if(!empty($dataConfig['id_kota']))
                                                                         @if($dataConfig['id_kota'] == $val['id_kota'])
                                                                             @php  $checked = "selected='selected'"  @endphp
                                                                         @endif
@@ -210,55 +210,60 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group label-floating">
-                                                        <div class="col-md-2">
-                                                            <select name="open_jam_toko" class="form-control">
-                                                                <option value=""> JAM</option>
-                                                                @php
-                                                                    $x = 1; 
-                                                                    while($x <= 24) {
-                                                                        $n = $x;
-                                                                        if (strlen($n) <= 1){
-                                                                            $n = '0'.$x;
-                                                                        }
-                                                                        $selected = "";
-                                                                        if(!empty($jamOpenCLose)) {
-                                                                            if ($jamOpenCLose == $n) {
-                                                                                $selected = "selected='selected'";
+                                                    <div class="row">
+                                                        <div class="col-md-6">Buka Jam toko</div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-md-3">
+                                                                <select name="open_jam_toko" class="form-control">
+                                                                    <option value=""> JAM</option>
+                                                                    @php
+                                                                        $x = 1; 
+                                                                        while($x <= 24) {
+                                                                            $n = $x;
+                                                                            if (strlen($n) <= 1){
+                                                                                $n = '0'.$x;
                                                                             }
-                                                                        }
-                                                                        echo "<option ".$selected."  value='".$n."' >".$n."</option>";
-                                                                        $x++;
-                                                                    } 
-                                                                @endphp
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <select name="open_menit_toko" class="form-control">
-                                                                <option value=""> Menit </option>
-                                                                @php
-                                                                    $x = 1; 
-                                                                    while($x <= 59) {  
-                                                                        $num = $x;
-                                                                        if (strlen($num) <= 1){
-                                                                            $num = '0'.$x;
-                                                                        }
-                                                                        $selected = "";
-                                                                        if(!empty($menitOpenCLose)) {
-                                                                            if ($menitOpenCLose == $num) {
-                                                                                $selected = "selected='selected'";
+                                                                            $selected = "";
+                                                                            if(!empty($jamOpenCLose)) {
+                                                                                if ($jamOpenCLose == $n) {
+                                                                                    $selected = "selected='selected'";
+                                                                                }
                                                                             }
-                                                                        }
-                                                                        echo "<option  ".$selected."  value='".$num."' >".$num."</option>";
-                                                                        $x++;
-                                                                    } 
-                                                                @endphp
-                                                            </select>
+                                                                            echo "<option ".$selected."  value='".$n."' >".$n."</option>";
+                                                                            $x++;
+                                                                        } 
+                                                                    @endphp
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <select name="open_menit_toko" class="form-control">
+                                                                    <option value=""> Menit </option>
+                                                                    @php
+                                                                        $x = 1; 
+                                                                        while($x <= 59) {  
+                                                                            $num = $x;
+                                                                            if (strlen($num) <= 1){
+                                                                                $num = '0'.$x;
+                                                                            }
+                                                                            $selected = "";
+                                                                            if(!empty($menitOpenCLose)) {
+                                                                                if ($menitOpenCLose == $num) {
+                                                                                    $selected = "selected='selected'";
+                                                                                }
+                                                                            }
+                                                                            echo "<option  ".$selected."  value='".$num."' >".$num."</option>";
+                                                                            $x++;
+                                                                        } 
+                                                                    @endphp
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-1">
-                                                            S/d
+                                                        <div class="row">
+                                                            <div class="col-md-6">Tutup Jam Toko</div>
                                                         </div>
-                                                        <div class="col-md-2">
-                                                         
+                                                        <div class="row">
+                                                            <div class="col-md-3">
                                                             <select name="close_jam_toko" class="form-control">
                                                                 <option value=""> JAM</option>
                                                                 @php
@@ -280,7 +285,7 @@
                                                                 @endphp
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-3">
                                                             <select name="close_menit_toko" class="form-control">
                                                                 <option value=""> Menit </option>
                                                                 @php
@@ -296,7 +301,6 @@
                                                                                 $selected = "selected='selected'";
                                                                             }
                                                                         }
-
                                                                         echo "<option ".$selected." value='".$num."' >".$num."</option>";
                                                                         $x++;
                                                                     } 
@@ -304,6 +308,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="col-md-3">
                                                     @php 
@@ -416,7 +422,6 @@
             text-align: left;
         }
         </style>
-  
     @section('script')
 
     <script src="{{asset('/plugins/jqValidate/jquery.mockjax.js')}}"></script>
@@ -424,7 +429,7 @@
     <script src="{{asset('/plugins/boostraptoggle/bootstrap-toggle.min.js')}}"></script>
     <script>
     var urlGetKampus = "{{route('setting.getKampus')}}";
-    var checkIdKota = "{{ !empty($dataConfig['id_kampus']) ?  $dataConfig['id_kampus'] : '' }}";
+    var checkIdKota = "{{ !empty($dataConfig['id_kota']) ?  $dataConfig['id_kota'] : '' }}";
     var urlSetDays = "{{ url(route('setting.doSaveOpenClose')) }}";
     var urlUpdateOpenToko = "{{ url(route('setting.doUpdateOpenToko')) }}";
     

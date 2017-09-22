@@ -8,5 +8,6 @@ return [
     'pass_customer' => "Password Harus di isi",
     'loginFailed' => "Login gagal silahkan cek kembali inputan anda",
     'loginAlreadyExist' => "User telah terdaftar",
+    'successUpdate' => "User telah terupdate",
     '_token' => "Form input gagal"
 ];

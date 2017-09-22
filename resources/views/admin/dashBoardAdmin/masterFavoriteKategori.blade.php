@@ -68,7 +68,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-header" data-background-color="purple">
-                                <h4 class="title">List Master kategori</h4>
+                                <h4 class="title">List Favorite kategori</h4>
                             </div>
                             <div class="card-content table-responsive">
                                 <table class="table table-hover listGlobal">
@@ -92,18 +92,20 @@
                     </div>
                     
                     <div class="col-lg-6 col-md-12">
-                        <div class="card">
-                            <div class="card-header" data-background-color="orange">
-                                <h4 class="title">Form kategori</h4>
-                            </div>
-                            <div class="card-content">
-
-                                <form class="form-global" action="{{ route('masterKategori.create') }}" method="POST" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header" data-background-color="orange">
+                            <h4 class="title">Form kategori</h4>
+                        </div>
+                        <div class="card-content">
+                            <form class="form-global" action="{{ route('masterKategori.createFavorite') }}" method="POST" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Nama kategori</label>
-                                                <input type="text" class="form-control nama_kategori" name="nama_kategori" value="{{ !empty($dataConfig['nama_kategori']) ? $dataConfig['nama_kategori'] : '' }}" data-error=".nama_kategoriTxt">
+                                                    <select name="id_kategori" class="form-control">
+                                                    @foreach($listKategori as $key => $val)
+                                                        <option value="{{ $val['id_kategori']  }}">{{  $val['nama_kategori'] }} </option>
+                                                    @endforeach
                                                 <div class="nama_kategoriTxt"></div>
                                             </div>
                                         </div>
@@ -112,12 +114,11 @@
                                     <div class="hiddenId"></div>
                                     <button type="submit" class="btn btn-primary pull-right buttonGlobal">Simpan</button>
                                     <div class="clearfix"></div>
-                                </form>
-
-
-                            </div>
+                            </form>
                         </div>
                     </div>
+                </div>
+
 
 
 				</div>
@@ -138,7 +139,6 @@
                     transform: translateY(0%);
                 }
             </style>
-         
             @include('_part.footer_menu')
         </div>
     @section('script')
@@ -146,13 +146,9 @@
     <script src="{{asset('/plugins/jqform/jquery.form.js')}}"></script>
     <script src="{{asset('/plugins/jqDatatable/jquery-datatable.js')}}"></script>
     <script>
-    var urlAjaxTable  = "{{ route('masterKategori.getKategori') }}";
-    var urlUpdate  = "{{ route('masterKategori.update') }}";
-    var urlDelete  = "{{ route('masterKategori.delete') }}";
-
+    var urlAjaxTable  = "{{ route('masterKategori.getFavoriteKategori') }}";
+    var urlDelete  = "{{ route('masterKategori.deleteFavorite') }}";
     var urlFavoriteCategori  = "{{ route('masterKategori.delete') }}";
-
-
     var token  = "{{ csrf_token() }}";
     var selDialog = $('#myConfirm');
     var perPage = 2;
@@ -172,21 +168,14 @@
                             { "data": "id_kategori" },
                             { "data": "nama_kategori" },
                             { "render": function (data, type, row, meta) {
-                                var edit = $('<a><button>')
-                                            .attr('class', "btn bg-blue-grey waves-effect edit-menu")
-                                            .attr('onclick','setForm(\''+row.id_kategori+'\', \''+row.nama_kategori+'\' )')
-                                            .text('Edit')
-                                            .wrap('<div></div>')
-                                            .parent()
-                                            .html();
                                 var del = $('<button>')
                                             .attr('class', "btn btn-danger waves-effect delete-menu")
-                                            .attr('onclick','showConfirm(\''+row.id_kategori+'\')')
+                                            .attr('onclick','showConfirm(\''+row.id_favorite_kategori+'\')')
                                             .text('Delete')
                                             .wrap('<div></div>')
                                             .parent()
                                             .html();
-                                return edit+" | "+del;
+                                return del;
                                 }
                             },
                          ],

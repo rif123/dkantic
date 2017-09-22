@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\models\kategoriModel as Kategori;
+use App\models\favoriteCategoriModel as FavKategori;
 class MkategoriController extends Controller
 {
     private  $id_user_admin = "";
@@ -153,4 +154,111 @@ class MkategoriController extends Controller
         return response()->json($this->parser);
     }
 
+
+
+
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function favoriteKategori()
+     {
+         $this->parser['label'] = "Master kampus";
+         $this->parser['listKategori'] = Kategori::all()->toArray();
+         return view('admin.dashBoardAdmin.masterFavoriteKategori', $this->parser);
+     }
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function getFavoriteKategori()
+     {
+        $input = Input::all();
+        $draw   = $input['draw'];
+        /**
+            * set count
+        **/
+        $result  = FavKategori::getAllData($input, true);
+        $total = FavKategori::getAllData($input, false);
+        $output=array();
+        $output['draw']=$draw;
+        $output['recordsTotal'] = $output['recordsFiltered']= count($total);
+        $output['data']=array();
+
+         /**
+            * get all data
+         **/
+        $output['data']  = $result;
+        return response()->json($output);
+     }
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function createFavorite()
+     {
+        $input = Input::all();
+        $rules = [
+            "id_kategori" => "required",
+            "_token" => "required"
+        ];
+        $messages = [
+            "id_kategori.required"   => error_message('MkategoriMessages.id_kategori'),
+            "_token.required"   => error_message('produkMessages._token')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            if ($this->checkEksistingKategori($input)) {
+                $produkSave = new FavKategori;
+                $produkSave->id_kategori = $input['id_kategori'];
+                $produkSave->created = date('Y-m-d H:i:s');
+                $produkSave->creator = $this->id_user_admin;
+                $produkSave->save();
+                $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('masterKategori.Favoriteindex'), "message" => error_message('MkategoriMessages.success') ]);
+            } else {
+                $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('masterKategori.Favoriteindex'), "message" => 'Data Telah terdaftar' ]);
+            }
+
+        } else {
+            $msg = !empty($validator->messages()->first()) ? $validator->messages()->first() :  error_message('settingMessages.failedSave');
+            $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('masterKategori.Favoriteindex'), "message" => $msg ]);
+        }
+        return response()->json($this->parser);
+     }
+
+    private function checkEksistingKategori($input) {
+        $getExistingKategori = FavKategori::where('id_kategori', $input['id_kategori'])->get()->toArray();
+        if (empty($getExistingKategori)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function deleteFavorite() {
+        $input = Input::all();
+        $rules = [
+            "id" => "required",
+            "_token" => "required"
+        ];
+        $messages = [
+            "id.required"   => error_message('MkategoriMessages.id_kategori'),
+            "_token.required"   => error_message('produkMessages._token')
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            $del = FavKategori::where('id_favorite_kategori', $input['id']);
+            $del->delete();
+            $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('masterKategori.Favoriteindex'), "message" => error_message('MkategoriMessages.successDelete') ]);
+        } else {
+            $msg = !empty($validator->messages()->first()) ? $validator->messages()->first() :  error_message('MkategoriMessages.failedSave');
+            $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => route('masterKategori.Favoriteindex'), "message" => $msg ]);
+        }
+        return response()->json($this->parser);
+    }
+    
+    
 }

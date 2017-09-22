@@ -108,6 +108,14 @@
                                                     <th>#</th>
                                                 </tr>
                                                 <tr>
+                                                    <td>Logo</td>
+                                                    <td><img  src="{{ !empty($dataConfig['logo_config']) ? asset('/imageConfig').'/'.$dataConfig['logo_config'] : '' }}" style="width: 50px;"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Copy Right</td>
+                                                    <td>{{ !empty($dataConfig['copy_right']) ? $dataConfig['copy_right'] : '' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>Telepon</td>
                                                     <td>{{ !empty($dataConfig['telp_config']) ? $dataConfig['telp_config'] : '' }}</td>
                                                 </tr>

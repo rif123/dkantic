@@ -17,6 +17,15 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Desc Promo</label>
+                        <input type="text" class="form-control " name="desc_promo" value="{{ !empty($dataConfig['desc_promo']) ? $dataConfig['desc_promo'] : '' }}" data-error=".desc_promoTxt">
+                        <div class="desc_promoTxt"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-sm-12">
                             <label class="input-group-btn">

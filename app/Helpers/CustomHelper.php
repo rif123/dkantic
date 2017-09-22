@@ -57,6 +57,11 @@ if (! function_exists('get_menu_admin')) {
                 'icon' => 'storage',
                 'link' => route('manageAdmin.index'),
                 'label' => 'Manage'
+            ],
+            [
+                'icon' => 'storage',
+                'link' => route('ProductAdmin.index'),
+                'label' => 'Produk'
             ]
         ];
         return $listMenu;

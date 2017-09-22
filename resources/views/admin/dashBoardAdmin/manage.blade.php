@@ -64,24 +64,21 @@
                             @include('admin.dashBoardAdmin.manage.menuManage')
                         </div>
                     </div>
-
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKota')
-                    </div>
-                    
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKampus')
-                    </div>
-
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listKategori')
-                    </div>
-                    
-                    <div class="col-lg-6 col-md-12">
-                        @include('admin.dashBoardAdmin.master.listUsers')
-                    </div>
-
-
+					<div class="row">	
+						<div class="col-lg-6 col-md-12">
+							@include('admin.dashBoardAdmin.master.listKota')
+						</div>
+						
+						<div class="col-lg-6 col-md-12">
+							@include('admin.dashBoardAdmin.master.listKampus')
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-6 col-md-12">
+							@include('admin.dashBoardAdmin.master.listKategori')
+						</div>
+					</div>
 				</div>
             </div>
             <style>

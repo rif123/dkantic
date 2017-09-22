@@ -9,7 +9,6 @@
                 
                 @include('FeComponent/slide')
                 
-                
                 @include('FeComponent/bestSelling')
 
 

@@ -8,11 +8,13 @@
                                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                     <i class="fa fa-bars"></i>
                                 </button>
-                                <a class="navbar-brand" href="#">MENU</a>
+                                <a class="navbar-brand" href="{{ url(route('fe.index')) }}">MENU</a>
                             </div>
+                         
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav">
-                                    <li class="active"><a href="index.html">Home</a></li>
+                                    <li class="active"><a href="{{ url(route('fe.index')) }}">Home</a></li>
+                                       <!--
                                     <li class="dropdown">
                                         <a href="category-grid.html" class="dropdown-toggle" data-toggle="dropdown">
                                         <img src="{{ asset('/frontend/data/') }}/icon_sale.png" alt="Category status">
@@ -200,8 +202,10 @@
                                     </li>
                                     <li><a href="category-grid.html">Jewelry & Watches</a></li>
                                     <li><a href="blog.html">Blog</a></li>
+                                    -->
                                 </ul>
-                            </div><!--/.nav-collapse -->
+                            </div>
+                            
                         </div>
                     </nav>
                 </div>

@@ -164,12 +164,14 @@ class PromoOriginController extends Controller
             "nama_promo" => "required",
             "date_start_promo" => "required",
             "date_end_promo" => "required",
+            "desc_promo" => "required",
             "_token" => "required"
         ];
         $messages = [
             "nama_promo.required"   => error_message('PromoMessages.nama_promo'),
             "date_start_promo.required"   => error_message('PromoMessages.date_start_promo'),
             "date_end_promo.required"   => error_message('PromoMessages.date_end_promo'),
+            "desc_promo.required"   => error_message('PromoMessages.desc_promo'),
             "_token.required"   => error_message('PromoMessages._token')
         ];
         $validator = Validator::make($input, $rules, $messages);
@@ -185,8 +187,9 @@ class PromoOriginController extends Controller
                 $produkSave->image_promo = $input['image_promo'];
             }
             $produkSave->nama_promo = $input['nama_promo'];
-            $produkSave->date_start_promo = $input['date_start_promo'];
-            $produkSave->date_end_promo = $input['date_end_promo'];
+            $produkSave->desc_promo = $input['desc_promo'];
+            $produkSave->date_start_promo = date('Y-m-d', strtotime($input['date_start_promo']));
+            $produkSave->date_end_promo = date('Y-m-d', strtotime($input['date_end_promo']));
             $produkSave->created = date('Y-m-d H:i:s');
             $produkSave->creator = $this->id_user_admin;
             $produkSave->save();
@@ -204,12 +207,14 @@ class PromoOriginController extends Controller
             "nama_promo" => "required",
             "date_start_promo" => "required",
             "date_end_promo" => "required",
+            "desc_promo" => "required",
             "_token" => "required"
         ];
         $messages = [
             "nama_promo.required"   => error_message('PromoMessages.nama_promo'),
             "date_start_promo.required"   => error_message('PromoMessages.date_start_promo'),
             "date_end_promo.required"   => error_message('PromoMessages.date_end_promo'),
+            "desc_promo.required"   => error_message('PromoMessages.desc_promo'),
             "_token.required"   => error_message('PromoMessages._token')
         ];
         $validator = Validator::make($input, $rules, $messages);
@@ -227,6 +232,8 @@ class PromoOriginController extends Controller
             if (empty($input['image_promo'])) {
                 unset($input['image_promo']);
             }
+            $input['date_start_promo'] = date('Y-m-d', strtotime($input['date_start_promo']));
+            $input['date_end_promo'] = date('Y-m-d', strtotime($input['date_end_promo']));
             Promo::where('id_promo', Input::get('id_promo'))->update( $input );
             $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('promolanding.index'), "message" => error_message('PromoMessages.success') ]);
         } else {

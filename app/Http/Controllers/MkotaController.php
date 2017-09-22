@@ -83,14 +83,7 @@ class MkotaController extends Controller
         $start  = $input['start'];
         $search = $input['search']["value"];
         $filter =  Input::get('search.value');
-        // echo "<pre>";
-        // print_R($filter);die;
-        /**
-            * set count
-        **/
-        // $whereData = array(array('name','test') , array('id' ,'!=','5')); 
-        // $users = DB::table('users')->where($whereData)->get(); 
-        //limit 
+        
         $this->offset = $input['start'];
 
         $total = Kota::all();

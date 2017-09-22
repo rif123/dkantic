@@ -31,10 +31,10 @@ class SettingMerchantController extends Controller
         $this->parser['listKota'] = Kota::all()->toArray();
         $this->parser['listKategori'] = Kategori::all()->toArray();
         $dataConfig  = outlateModel::where('id_merchant', $this->id_merchant)->get()->toArray();
-
         $dataOpenCloseToko  = openCloseToko::where('id_merchant', $this->id_merchant)->get()->toArray();
         $this->parser['dataConfig'] = !empty($dataConfig[0]) ? $dataConfig[0] : "";
         $this->parser['listOpenCloseToko'] = $dataOpenCloseToko;
+
         return view('merchant.dashBoardMerchant.settingOutlet', $this->parser);
     }
 

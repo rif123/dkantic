@@ -53,8 +53,9 @@
                                 <i class="material-icons">access_time</i> updated {{ date("d M Y H:i:s", strtotime($dataProduk['created'])) }}
                                 </br>
                             </div>
-                            <button type="button" class="btn btn-green pull-right updateProd" data-id-produk="{{ $dataProduk['id_produk'] }}">Update</button>
-                            <button type="button" class="btn btn-danger pull-right deleteProd" data-id-produk="{{ $dataProduk['id_produk'] }}">Delete</button>
+                            <br>
+                            <button type="button" class="btn btn-green pull-right btn-sm updateProd" data-id-produk="{{ $dataProduk['id_produk'] }}">Update</button>
+                            <button type="button" class="btn btn-danger pull-right btn-sm deleteProd" data-id-produk="{{ $dataProduk['id_produk'] }}">Delete</button>
                         </div>
                     </div>
                 </div>        

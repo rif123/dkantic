@@ -61,21 +61,21 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-                            @include('admin.dashBoardAdmin.master.menu')
+                            @include('admin.dashBoardAdmin.product.menuProduct')
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-md-12 listMerchant">
                         <div class="card">
                             <div class="card-header" data-background-color="purple">
-                                <h4 class="title">List Master Merchant</h4>
+                                <h4 class="title">List Product</h4>
                                 <a href="#profile" data-toggle="tab" class="showFilter">
                                     <i class="material-icons">find_in_page</i>
                                     Filter
                                     <div class="ripple-container"></div>
                                 </a> 
                                 | 
-                                <a href="#profile" data-toggle="tab" class="addMerchant">
+                                <a href="#profile" data-toggle="tab" class="addItems">
                                     <i class="material-icons">add_to_queue</i>
                                     Tambah
                                     <div class="ripple-container"></div>
@@ -88,12 +88,10 @@
                                             <th>ID</th>
                                             <th>Nama Merchant</th>
                                             <th>Nama Outlate</th>
-                                            <th>Kota</th>
-                                            <th>Kampus</th>
                                             <th>Kategori</th>
-                                            <th>Nama Pemilik</th>
-                                            <th>Address</th>
-                                            <th>Hp</th>
+                                            <th>Nama Pemilik Outlate</th>
+                                            <th>Nama Produk</th>
+                                            <th>Harga Produk</th>
                                             <th>Open Toko</th>
                                             <th>#</th>
                                         </tr>
@@ -103,12 +101,10 @@
                                             <th>ID</th>
                                             <th>Nama Merchant</th>
                                             <th>Nama Outlate</th>
-                                            <th>Kota</th>
-                                            <th>Kampus</th>
                                             <th>Kategori</th>
-                                            <th>Nama Pemilik</th>
-                                            <th>Address</th>
-                                            <th>Hp</th>
+                                            <th>Nama Pemilik Outlate</th>
+                                            <th>Nama Produk</th>
+                                            <th>Harga Produk</th>
                                             <th>Open Toko</th>
                                             <th>#</th>
                                         </tr>
@@ -152,7 +148,7 @@
       <div class="modal-body">
           <form class="formFilter">
             <div class="col-md-12">
-                <div class="col-md-6">
+                 <div class="col-md-6">
                     <div class="form-group label-floating">
                         <label class="control-label">Nama Merchant</label>
                         <input type="text" name="username_merchant" class="form-control" >
@@ -164,29 +160,28 @@
                         <input type="text" name="nama_outlate" class="form-control" >
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group label-floating">
-                        <label class="control-label">Kota</label>
-                        <select name="id_kota"  class="form-controll changeKota">
-                            <option value=""> Pilih Kota </option>
-                            @foreach($listKota as $key => $val)
-                                <option value="{{ $val['id_kota'] }}">{{ $val['nama_kota'] }}</option>
-                            @endforeach
-                        </select>
+                        <label class="control-label">Nama Pemilik outlate</label>
+                        <input type="text" name="nama_pemilik_outlate" class="form-control" >
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group label-floating">
-                        <label class="control-label">Kampus</label>
-                        <select name="id_kampus" class="form-controll kampusData">
-                            <option value=""> Pilih Kampus </option>
-                        </select>
+                        <label class="control-label">Nama produk</label>
+                        <input type="text" name="nama_produk" class="form-control" >
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        <label class="control-label">Harga Produk</label>
+                        <input type="text" name="harga_produk" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group label-floating">
                         <label class="control-label">Kategori</label>
-                        <select name="nama_kategori" class="form-controll">
+                        <select name="id_kategori" class="form-control">
                             <option value=""> Pilih Kategori </option>
                             @foreach($listKategori as $key => $val)
                                 <option value="{{ $val['id_kategori'] }}">{{ $val['nama_kategori'] }}</option>
@@ -194,35 +189,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group label-floating">
-                        <label class="control-label">Nama Pemilik</label>
-                        <input type="text" name="nama_pemilik_outlate" class="form-control" >
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group label-floating">
-                        <label class="control-label">Alamat</label>
-                        <input type="text" name="alamat_outlate" class="form-control" >
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group label-floating">
-                        <label class="control-label">Hp</label>
-                        <input type="text" name="hp_outlate" class="form-control" >
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group label-floating">
-                        <label class="control-label">Status Toko</label>
-                        <select name="status_open_outlate" class="form-controll">
-                            <option value=""> Status Toko </option>
-                            <option value="1"> OPEN </option>
-                            <option value="2"> Close </option>
-                        </select>
-                    </div>
-                </div>
-                <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
             </div>
             </form>
       </div>
@@ -242,12 +209,12 @@
     <script src="{{asset('/plugins/jqDatatable/jquery-datatable.js')}}"></script>
 
     <script>
-    var urlAjaxTable  = "{{ route('masterMerchant.getMerchant') }}";
-    var urlGetDetailMerchant  = "{{ route('masterMerchant.getDetailMerchant') }}";
-    var urlDelete  = "{{ route('masterKampus.delete') }}";
+    var urlAjaxTable  = "{{ route('ProductAdmin.listProduk') }}";
+    var urlGetShowEdit  = "{{ route('ProductAdmin.showEdit') }}";
+    var urlDelete  = "{{ route('ProductAdmin.deleteProd') }}";
     var urlGetKampus = "{{ route('masterMerchant.getKampus') }}";
     var urlFilter = "{{ route('masterMerchant.filterMerchant') }}";
-    var urlShowMerchant = "{{ route('masterMerchant.doShow') }}";
+    var urlShowForm = "{{ route('ProductAdmin.formProduk') }}";
     var token  = "{{ csrf_token() }}";      
     var selDialog = $('#myConfirm');
     var perPage = 10; 
@@ -267,12 +234,10 @@
                             { "data": "id_merchant" },
                             { "data": "username_merchant" },
                             { "data": "nama_outlate" },
-                            { "data": "nama_kota" },
-                            { "data": "nama_kampus" },
                             { "data": "nama_kategori" },
                             { "data": "nama_pemilik_outlate" },
-                            { "data": "alamat_outlate" },
-                            { "data": "hp_outlate" },
+                            { "data": "nama_produk" },
+                            { "data": "harga_produk" },
                             { "render": function (data, type, row, meta) {
                                 var status = "<span class='btn btn-success btn-sm'>OPEN</span>";
                                     if (row.status_open_outlate != 1) {
@@ -282,24 +247,65 @@
                                 }
                             },
                             { "render": function (data, type, row, meta) {
-                                var preview = $('<a><button>')
-                                            .attr('class', "btn btn-info btn-edit-menu")
-                                            .attr('onclick','preview(\''+row.id_merchant+'\' )')
-                                            .text('Preview')
+                                var edit = $('<a><button>')
+                                            .attr('class', "btn bg-blue-grey  btn-edit-menu btn-sm")
+                                            .attr('onclick','editData(\''+row.id_produk+'\' )')
+                                            .text('Edit')
                                             .wrap('<div></div>')
                                             .parent()
                                             .html();
-                                return preview;
+                                var del = $('<a><button>')
+                                            .attr('class', "btn btn-danger btn-edit-menu btn-sm")
+                                            .attr('onclick','deleteData(\''+row.id_produk+'\' )')
+                                            .text('Delete')
+                                            .wrap('<div></div>')
+                                            .parent()
+                                            .html();
+                                return edit + "|" + del;
                                 }
                             },
                          ],
                          aoColumnDefs: [
                             {
                                 bSortable: false,
-                                aTargets: [ 9 ]
+                                aTargets: [ 2 ]
                             }
                         ]
                     });
+    function editData(id) {
+        $.ajax({
+            url: urlGetShowEdit,
+            type: "post",
+            data:  { id : id, _token :token } ,
+            success: function(retval) {
+                var listMerchant  = $('.listMerchant');
+                var listDetailMerchant  = $('.listDetailMerchant');
+                listMerchant.addClass('hidden');
+                listDetailMerchant.removeClass('hidden');
+                listDetailMerchant.html(retval.html);
+
+            },
+            error: function (jqXHR, exception) {
+                    var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                custom.showNotif('top','center', 4, msg)
+            }            
+        });
+    }
     function preview(id) {
         $.ajax({
             url: urlGetDetailMerchant,
@@ -349,7 +355,7 @@
     function deleteData(id) {
         selDialog.modal('hide');
         $.ajax({
-            url: urlGetDetailMerchant,
+            url: urlDelete,
             type: "post",
             data:  { id : id, _token :token } ,
             success: function(retval) {
@@ -391,9 +397,9 @@
     $('.resetFormMerchant').click(function(){
         $('.formFilter')[0].reset();
     });
-    $('.addMerchant').click(function(){
+    $('.addItems').click(function(){
         $.ajax({
-            url: urlShowMerchant,
+            url: urlShowForm,
             type: "get",
             success: function(retval) {
                 if(retval.status) {
@@ -473,7 +479,7 @@
             data[obj.name] = obj.value;
         });
 
-        $('.listGlobal').DataTable( {
+        var listTable = $('.listGlobal').DataTable( {
             "processing": true,
             "bFilter": false,
             "bInfo": false,
@@ -483,18 +489,16 @@
             "ajax": {
                 "url": urlAjaxTable,
                 "type": "GET",
-                 "data" : data
+                "data" : data
             },
             "columns": [
                 { "data": "id_merchant" },
                 { "data": "username_merchant" },
                 { "data": "nama_outlate" },
-                { "data": "nama_kota" },
-                { "data": "nama_kampus" },
                 { "data": "nama_kategori" },
                 { "data": "nama_pemilik_outlate" },
-                { "data": "alamat_outlate" },
-                { "data": "hp_outlate" },
+                { "data": "nama_produk" },
+                { "data": "harga_produk" },
                 { "render": function (data, type, row, meta) {
                     var status = "<span class='btn btn-success btn-sm'>OPEN</span>";
                         if (row.status_open_outlate != 1) {
@@ -504,21 +508,28 @@
                     }
                 },
                 { "render": function (data, type, row, meta) {
-                    var preview = $('<a><button>')
-                                .attr('class', "btn btn-info btn-edit-menu")
-                                .attr('onclick','preview(\''+row.id_merchant+'\' )')
-                                .text('Preview')
+                    var edit = $('<a><button>')
+                                .attr('class', "btn bg-blue-grey  btn-edit-menu btn-sm")
+                                .attr('onclick','editData(\''+row.id_produk+'\' )')
+                                .text('Edit')
                                 .wrap('<div></div>')
                                 .parent()
                                 .html();
-                    return preview;
+                    var del = $('<a><button>')
+                                .attr('class', "btn btn-danger btn-edit-menu btn-sm")
+                                .attr('onclick','deleteData(\''+row.id_produk+'\' )')
+                                .text('Delete')
+                                .wrap('<div></div>')
+                                .parent()
+                                .html();
+                    return edit + "|" + del;
                     }
                 },
-                ],
-                aoColumnDefs: [
+             ],
+             aoColumnDefs: [
                 {
                     bSortable: false,
-                    aTargets: [ 9 ]
+                    aTargets: [ 2 ]
                 }
             ],
             'destroy' : true

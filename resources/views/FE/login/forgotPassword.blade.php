@@ -15,74 +15,21 @@
             <h1 class="page-title">Login Dkantin</h1>
             <div class="page-content">
                 <div class="row">
-                    <div class="col-sm-6">
-                    <div class="box-border">
-                        <h4>Buat akun baru</h4>
-                        <small>Silahkan isi data diri untuk login di dkantin</small>
-                        <form action="{{ url(route('user.doReg')) }}" method="post" id="formReg" >
-                            <p>
-                                <label>Nama</label>
-                                <input type="text" name="nama_customer" class="nama_customer"  data-error=".nama_customerTxt">
-                                <div class="nama_customerTxt"></div>
-                            </p>
-
-                            <p>
-                                <label>Alamat</label>
-                                <textarea name="alamat_customer" class="alamat_customer" data-error=".alamat_customerTxt"></textarea>
-                                <div class="alamat_customerTxt"></div>
-                            </p>
-
-                            <p>
-                                <label>Email</label>
-                                <input name="email_customer" type="text" class="email_customer" data-error=".email_customerTxt" />
-                                <div class="email_customerTxt"></div>
-                            </p>
-                            
-                            <p>
-                                <label>Hp</label>
-                                <input name="hp_customer" type="text" class="hp_customer" data-error=".hp_customerTxt" autocomplete="off"/>
-                                <div class="hp_customerTxt"></div>
-                            </p>
-
-                            <p>
-                                <label>Password</label>
-                                <input name="pass_customer" type="password" class="pass_customer" data-error=".pass_customerTxt" autocomplete="off"/>
-                                <div class="pass_customerTxt"></div>
-                            </p>
-
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <p>
-                                <button class="button" type="submit">
-                                    <i class="fa fa-user"></i> Buat Akun
-                                </button>
-                            </p>
-                        </form>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="box-border">
-                            <h4>Already registered?</h4>
-                            <form action="{{url(route('user.doLogin'))}}" method="post" id="login">
-                                <p>
-                                    <label>Email address</label>
-                                    <input type="text" name="nama_customer" autocomplete="off" data-error=".nama_customerTxt" autocomplete="off">
-                                    <div class="nama_customerTxt"></div>
-                                </p>
-                                <p>
-                                    <label>Password</label>
-                                    <input type="password" name="pass_customer" autocomplete="off" data-error=".pass_customerTxt" autocomplete="off">
-                                    <div class="pass_customerTxt"></div>
-                                </p>
-                                <p>
-                                    <a href="{{ url(route('user.showForgotPassword')) }}">Forgot your password?</a>
-                                </p>
-                                <p>
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button class="button" type="submit"><i class="fa fa-lock"></i> Sign in</button>
-                                </p>
-                            </form>
+                        <div class="col-sm-6">
+                            <div class="box-border">
+                                <h4>Silahkan Masukan Email </h4>
+                                <form action="{{url(route('user.doForgotPassword'))}}" method="post" id="loginForgot">
+                                    <p>
+                                        <label>Email address</label>
+                                        <input type="text" name="email_customer" autocomplete="off" data-error=".email_customerTxt" autocomplete="off">
+                                        <div class="email_customerTxt"></div>
+                                    </p>
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button class="button" type="submit"><i class="fa fa-lock"></i>Reset Password </button>
+                                    </p>
+                                </form>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -110,44 +57,22 @@
         <script src="{{ asset('/js/custom.js') }}"></script>
 	    <script src="{{ asset('/js/bootstrap-notify.js') }}"></script>
         <script>
-            $('#formReg').validate({
+            $('#loginForgot').validate({
             debug: true,
             rules: {
-                nama_customer: {
-                    required: true,
-                },
-                alamat_customer: {
-                    required: true,
-                },
                 email_customer: {
                     required: true,
-                    email: true
                 },
-                hp_customer: {
+                pass_customer: {
                     required: true,
-                    number: true
-                },
-                password: {
-                    required: true
                 }
             },
             messages: {
-                nama_customer: {
-                    required: "Silahkan Isi Nama Customer",
-                },
-                alamat_customer: {
-                    required: "Silahkan Isi Alamat",
-                },
                 email_customer: {
                     required: "Silahkan Isi Email",
-                    email: "Format Email salah",
                 },
-                hp_customer: {
-                    required: "Silahkan Isi No HP",
-                    number: "Format Harus Angka",
-                },
-                password: {
-                    required: "Silahkan Isi Password"
+                pass_customer: {
+                    required: "Silahkan Isi Password",
                 }
             },
             errorElement : 'div',

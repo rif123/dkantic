@@ -20,7 +20,6 @@ class kampusModel extends Model
             LEFT JOIN m_kota as kot on mk.id_kota  = kot.id_kota
             where 1=1
             ";
-        
         if (!empty($input['search']['value'])) {
             $query .= " and nama_kampus like  '%".$input['search']['value']."%' ";
         }
