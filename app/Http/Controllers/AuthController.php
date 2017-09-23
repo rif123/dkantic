@@ -174,10 +174,17 @@ class AuthController extends Controller
         $validator = Validator::make($input, $rules, $messages);
         if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
             $getCustomer = UserCustomer::where('email_customer', $input['email_customer'])->get()->toArray();
+            
             if (empty($getCustomer)) {
                 $this->setCallback(['status' => false, 'isRedirect' => true, "redirect" => route('user.showForgotPassword'), "message" => "User Tidak di temukan" ]);
             } else {
-
+                $password = $this->generateRandomString();
+                $mail = Mail::send('TemplateEmailForgot', array('username' =>$getCustomer[0]['nama_customer'], 'password' => $password), function($message) use($getCustomer)
+                {
+                    $message->from("dkantin@gmail.com", "Reset Password");
+                    $message->to($getCustomer[0]['email_customer'])->subject("Reset Password");
+                });
+                UserCustomer::where('id_customer', $getCustomer[0]['id_customer'])->update( [ 'pass_customer' => Hash::make($password) ]);
                 $this->setCallback(['status' => false, 'isRedirect' => true, "redirect" => route('user.showForgotPassword'), "message" => "Silahkan Cek email" ]);
             }
         } else {
@@ -187,6 +194,16 @@ class AuthController extends Controller
         return response()->json($this->parser);
     }
 
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+    
 
 
     private function checkPassword($input, $hasedPass) {
