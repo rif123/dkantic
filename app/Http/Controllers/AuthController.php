@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\models\userCustomerModel as UserCustomer;
 use App\Mail\KryptoniteFound;
 use Illuminate\Support\Facades\Mail;
+use Crypt;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,7 @@ class AuthController extends Controller
      */
     public function index()
     {
+        $x = Crypt::encryptString("hey");
        return  view('FE.login.index');
     }
     /**
@@ -53,7 +55,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($input, $rules, $messages);
         if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
-            $query = UserCustomer::where('nama_customer', $input['nama_customer'])->get();
+            $query = UserCustomer::where('nama_customer', $input['nama_customer'])->orWhere('email_customer', $input['email_customer'])->get();
             $user = $query->toArray();
             if (empty($user)) {
                     $loginSave = new UserCustomer;
@@ -64,8 +66,15 @@ class AuthController extends Controller
                     $loginSave->hp_customer = $input['hp_customer'];
                     $loginSave->created = date('Y-m-d H:i:s');
                     $loginSave->creator =  $this->id_customer;
-
                     $loginSave->save();
+                    $insertedId = $loginSave->id;
+                    $urlGenerate = URL(route('user.confirm'))."?g=".Crypt::encryptString($insertedId);
+                    $mail = Mail::send('TemplateEmail', array('urlGenerate' => $urlGenerate), function($message) use($input)
+                    {
+                        $message->from("dkantin@gmail.com", "KONFIRMASI EMAIL");
+                        $message->to($input['email_customer'])->subject("Email Verifikasi");
+             
+                    });
                     $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('user.login'), "message" => error_message('FEMessages.successSave') ]);
             } else { 
                 $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => "", "message" => error_message('FEMessages.loginAlreadyExist')]);
@@ -76,6 +85,29 @@ class AuthController extends Controller
          }
          return response()->json($this->parser);
     }
+
+    public function confirmEmail()
+    {
+        $input = Input::all();
+        $rules = [
+            "g" => "required"
+        ];
+        $messages = [
+            "g.required"   => "Data Tidak ditemukan",
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+        if (!$validator->fails()) {
+            $id = Crypt::decryptString(Input::get('g'));
+            $customer = UserCustomer::where('id_customer', $id)->get()->toArray();
+            if (!empty($customer)) {
+                UserCustomer::where('id_customer', $id)->update( [ 'status' => 1]);
+                return redirect(route('user.login'));
+            } else {
+                return redirect(route('fe.index'));
+            }
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -101,8 +133,12 @@ class AuthController extends Controller
             if (!empty($user)) {
                 $check = $this->checkPassword($input, $user[0]);
                 if ($check){
-                    $this->setSessionLogin($user[0]);
-                    $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('user.login'), "message" => error_message('FEMessages.successSave') ]);
+                    if ($user[0]['status'] != 0) {
+                        $this->setSessionLogin($user[0]);
+                        $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('user.login'), "message" => error_message('FEMessages.successSave') ]);
+                    } else {
+                        $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => "", "message" => "Akun belum Verifikasi" ]);
+                    }
                 } else {
                     $this->setCallback(['status' => false, 'isRedirect' => false, "redirect" => "", "message" => error_message('loginMessages.passwordFailed')]);
                 }
@@ -122,7 +158,6 @@ class AuthController extends Controller
     }
 
     public function showForgotPassword() {
-        // Mail::to('rifky@kudo.co.id')->send(new KryptoniteFound);
         return  view('FE.login.forgotPassword');
     }
 

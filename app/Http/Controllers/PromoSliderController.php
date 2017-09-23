@@ -233,6 +233,9 @@ class PromoSliderController extends Controller
         ];
         $validator = Validator::make($input, $rules, $messages);
         if (!$validator->fails() && \Session::get("_token") == $input['_token']) {
+            $delRole = PromoRoleSlide::where('id_slide', $input['id']);
+            $delRole->delete();
+            
             $del = PromoSlide::where('id_slide', $input['id']);
             $del->delete();
             $this->setCallback(['status' => true, 'isRedirect' => true, "redirect" => route('promoSLideLanding.index'), "message" => error_message('PromoMessages.successDelete') ]);

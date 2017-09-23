@@ -38,6 +38,8 @@ Route::get('/auth/forgot-password', [ 'as' => 'user.showForgotPassword', 'uses' 
 Route::post('/auth/do-forgor-password', [ 'as' => 'user.doForgotPassword', 'uses' => 'AuthController@doForgotPassword' ]);
 
 
+Route::get('/auth/confirm-email', [ 'as' => 'user.confirm', 'uses' => 'AuthController@confirmEmail' ]);
+
 
 
 
