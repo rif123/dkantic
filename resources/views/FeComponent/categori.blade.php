@@ -15,7 +15,9 @@
                                             $image = !empty($getImage[0]['name_image_produk']) ? $getImage[0]['name_image_produk'] : "" ;
                                         @endphp
                                         @if (!empty($image))
-                                            <li class="item"><a href="#"><img src="{{ asset('/images/') }}/{{ $image }}" alt="Cat" style="width:90%"></a></li>
+                                            <li class="item"><a href="#">
+                                                <img onerror="this.onerror=null;this.src='{{ asset('/img/placeholder.png') }}';" src="{{ asset('/images/') }}/{{ $image }}" alt="Cat" style="height:10vh">
+                                            </a></li>
                                         @endif
                                     @endforeach
                                 </ul>

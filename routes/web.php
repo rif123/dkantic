@@ -42,6 +42,17 @@ Route::get('/auth/confirm-email', [ 'as' => 'user.confirm', 'uses' => 'AuthContr
 
 
 
+// list by Kampus
+Route::get('/kampus/{kampus}/{id}', [ 'as' => 'fe.promoSlide', 'uses' => 'FESlideController@index' ]);
+Route::post('/get-items/{kampus}/{id}', [ 'as' => 'fe.getItems', 'uses' => 'FESlideController@getItems' ]);
+
+
+Route::get('/promo/{promo}/{id}', [ 'as' => 'fe.promoSlide', 'uses' => 'FEPromoController@index' ]);
+Route::post('/get-items/promo/{kampus}/{id}', [ 'as' => 'fe.getItemsPromo', 'uses' => 'FEPromoController@getItems' ]);
+
+
+Route::get('/promo-slider/{promo}/{id}', [ 'as' => 'fe.promoSlide', 'uses' => 'FEPromoController@indexSLide' ]);
+
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

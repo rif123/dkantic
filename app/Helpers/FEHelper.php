@@ -69,6 +69,15 @@ if (! function_exists('listGetImage')) {
         return $listData;
     }
 }
+if (! function_exists('listGetRatting')) {
+    function listGetRatting($id_produk) 
+    {
+        $query = "SELECT  AVG(pr.rating_start) AS rating_average FROM produk_rating  as pr  where pr.id_produk = '".$id_produk."' ";
+        $listData = \DB::select($query);
+        $listData  = json_decode(json_encode($listData), true);
+        return $listData;
+    }
+}
 
 if (! function_exists('getCategori')) {
     function getCategori() 
@@ -100,5 +109,65 @@ if (! function_exists('convertRp')) {
             $rp = number_format($number, 0, ".", ".");
             return "Rp. ".$rp;
         }
+    }
+}
+if (! function_exists('toSlug')) {
+    function toSlug($string) 
+    {
+        $url = str_slug($string, '-');
+        return $url;
+    }
+}
+if (! function_exists('paginate_one')) {
+    function paginate_one($reload, $page, $tpages) 
+    {
+        $firstlabel = "&laquo;&nbsp;";
+        $prevlabel  = "&lsaquo;&nbsp;";
+        $nextlabel  = "&nbsp;&rsaquo;";
+        $lastlabel  = "&nbsp;&raquo;";
+        
+        $out = "<ul class=\"pagination\">";
+        
+        // first
+        if($page>1) {
+            $out.= "<li><a href=\"" . $reload . "\">" . $firstlabel . "</a></li>";
+        }
+        else {
+            $out.= "<li><span>" . $firstlabel . "</span></li>";
+        }
+        
+        // previous
+        if($page==1) {
+            $out.= "<li><span>" . $prevlabel . "</span></li>";
+        }
+        elseif($page==2) {
+            $out.= "<li><a href=\"" . $reload . "\">" . $prevlabel . "</a></li>";
+        }
+        else {
+            $out.= "<li><a href=\"" . $reload . "\"  data-page='".($page-1)."' >" . $prevlabel . "</a></li>";
+        }
+        
+        // current
+        $out.= "<li><span class=\"current\">Page " . $page . " of " . $tpages ."</span></li>";
+        
+        // next
+        if($page<$tpages) {
+            $out.= "<li><a  href='$reload' data-page='".($page+1)."' >" . $nextlabel . "</a></li>";
+        }
+        else {
+            $out.= "<li><span>" . $nextlabel . "</span></li>";
+        }
+        
+        // last
+        if($page<$tpages) {
+            $out.= "<li><a  href='$reload'  data-page='".$tpages."' >" . $lastlabel . "</a></li>";
+        }
+        else {
+            $out.= "<li><span>" . $lastlabel . "</span></li>";
+        }
+        
+        $out.= "</ul>";
+        
+        return $out;
     }
 }

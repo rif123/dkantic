@@ -38,7 +38,7 @@
 									<div class="product-container">
 										<div class="product-left">
 											<div class="product-thumb">
-												<a class="product-img" href="#"><img src="{{ asset('/images/') }}/{{$image}}" alt="Product"></a>
+												<a class="product-img" href="#"><img  onerror="this.onerror=null;this.src='{{ asset('/img/placeholder.png') }}';"  src="{{ asset('/images/') }}/{{$image}}" alt="Product" style="height:15vh"></a>
 												<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
 											</div>
 										</div>

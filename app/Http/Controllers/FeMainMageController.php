@@ -17,6 +17,7 @@ class FeMainMageController extends Controller
      */
     public function index()
     {
+      
         $this->parser['listPromoBox'] = PromoSlide::all()->toArray();
         $this->parser['listPromo'] = Promo::all()->toArray();
         $this->parser['listFavorite'] = favoritePromo::getFavorite();

@@ -24,11 +24,11 @@
                                                 @if (!empty($v['nama_kampus']))
                                                     <div class="col-sm-4 mega-product">
                                                         <div class="product-avatar">
-                                                            <a href="#"><img src="{{ asset('/frontend/images/') }}/kampus.png" alt="product1" style="width:40%;"></a>
+                                                            <a href="{{ url('/kampus/') }}/{{ toSlug($v['nama_kampus']) }}/{{ $v['id_kampus'] }}"><img src="{{ asset('/frontend/images/') }}/kampus.png" alt="product1" style="width:40%;"></a>
                                                         </div>
                                                     <br>
                                                         <div class="product-name" style="padding-left:7%">
-                                                        <a href="#">{{ $v['nama_kampus'] }}</a>
+                                                        <a href="{{ url('/kampus') }}/{{ toSlug($v['nama_kampus']) }}/{{ $v['id_kampus'] }}">{{ $v['nama_kampus'] }}</a>
                                                         </div>
                                                     </div>
                                                 @endif

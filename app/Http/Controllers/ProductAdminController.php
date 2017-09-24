@@ -108,6 +108,7 @@ class ProductAdminController extends Controller
             $produkSave = new Product;
             $produkSave->id_merchant = $input['id_merchant'];
             $produkSave->nama_produk = $input['nama_produk'];
+            $produkSave->harga_produk = $input['harga_produk'];
             $produkSave->ket_produk = $input['ket_produk'];
             $produkSave->created = date('Y-m-d H:i:s');
             $produkSave->creator = $this->id_user_admin;
